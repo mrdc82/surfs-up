@@ -36,11 +36,8 @@ responses = openmeteo.weather_api(url, params=params)
 
 # Process first location. Add a for-loop for multiple locations or weather models
 response = responses[0]
-print(f"Coordinates: {response.Latitude()} {response.Longitude()}")
+print(f"Coordinates: {response.Latitude():.2f},{response.Longitude():.2f}")
 print(f"Location: {loc_name}")
-#print(f"Elevation {response.Elevation()} m asl")
-#print(f"Timezone {response.Timezone()} {response.TimezoneAbbreviation()}")
-#print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
 
 # Current values. The order of variables needs to be the same as requested.
 current = response.Current()
@@ -59,7 +56,7 @@ current_swell_wave_direction = current.Variables(5).Value()
 
 current_swell_wave_period = current.Variables(6).Value()
 
-mytime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
+stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
 
 # a compass for wind direction
 if current_wind_wave_direction in range(0,22):
@@ -97,11 +94,8 @@ elif current_swell_wave_direction in range(247,292):
 elif current_swell_wave_direction in range(292, 337):
     cwsd = "NW"
 
-print(f"Current time: {mytime}")
-print(f"Current wave_height: {current_wave_height}")
-print(f"Current wave_direction: {current_wave_direction}")
-print(f"Current wave_period: {current_wave_period}")
-print(f"Current wind_wave_direction {cwvd}")
-print(f"Current swell_wave_height: {current_swell_wave_height}")
-print(f"Current swell_wave_direction: {cwsd}")
-print(f"Current swell_wave_period: {current_swell_wave_period}")
+print(f"Current time: {stringtime}")
+print(f"Current wind direction {cwvd}")
+print(f"Current swell height: {current_swell_wave_height:.2f}m")
+print(f"Current swell direction: {cwsd}")
+print(f"Current swell period: {int(current_swell_wave_period)}s")
