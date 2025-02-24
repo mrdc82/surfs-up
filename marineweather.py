@@ -40,7 +40,8 @@ url = "https://marine-api.open-meteo.com/v1/marine"
 params = {
 	"latitude": {latitude},
 	"longitude": {longitude},
-	"current": ["wave_height", "wave_direction", "wave_period", "wind_wave_direction", "swell_wave_height", "swell_wave_direction", "swell_wave_period"]
+	"current": ["wave_height", "wave_direction", "wave_period", "wind_wave_direction", 
+             "swell_wave_height", "swell_wave_direction", "swell_wave_period", "sea_surface_temperature"]
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -66,6 +67,8 @@ current_swell_wave_height = current.Variables(4).Value()
 current_swell_wave_direction = current.Variables(5).Value()
 
 current_swell_wave_period = current.Variables(6).Value()
+
+current_sea_surface_temperature = current.Variables(7).Value() - 3
 
 stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -112,6 +115,7 @@ print(f"Current temperature: {int(weather_current_temperature_2m)}\u2103")
 print(f"Current swell height: {current_swell_wave_height:.2f}m")
 print(f"Current swell direction: {curr_swell_direction}")
 print(f"Current swell period: {int(current_swell_wave_period)}s")
+print(f"Current surface temperature: {int(current_sea_surface_temperature)}\u2103")
 print('----------------------------------\n')
 
 best_spots = "These are your top spots right now"
