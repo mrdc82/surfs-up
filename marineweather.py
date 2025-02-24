@@ -116,15 +116,30 @@ print('----------------------------------\n')
 
 best_spots = "These are your top spots right now"
 
+print(best_spots + '\n----------------------------------')
 if curr_wind_direction == "SE":
-    print(best_spots + '\n----------------------------------')
     for spot in condition_locations.south_east:
         print(spot)
 elif curr_wind_direction == "SW":
-    print(condition_locations.south_west)
+    for spot in condition_locations.south_west:
+        print(spot)
 elif curr_wind_direction == "NE":
-    print(condition_locations.north_east)
+    for spot in condition_locations.north_east:
+        print(spot)
 elif curr_wind_direction == "NW":
-    print(condition_locations.north_west)   
+    for spot in condition_locations.north_west:
+        print(spot)
+elif curr_wind_direction == "S":
+    for spot in condition_locations.south:
+        print(spot)
+elif curr_wind_direction == "N":
+    for spot in condition_locations.north:
+        print(spot)
+elif curr_wind_direction == "E":
+    for spot in condition_locations.east:
+        print(spot)
+elif curr_wind_direction == "W":
+    for spot in condition_locations.west:
+        print(spot)
 
 print('----------------------------------')

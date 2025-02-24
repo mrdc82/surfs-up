@@ -7,6 +7,10 @@
 # South East: Clifton First Beach, Moses, Dunes, Innerkom, Ledge, Outerkom, Kessels, Llandudno, 
 #             Milnerton Lighthouse, Misty Cliffs, Sunset, Scarborough, Sandy Bay, Solly's, The Hoek, 
 #             The Wedge, Thermopylae
+# South:      Longbeach, Llandudno, Big Bay
+# North:      Muizenberg
+# East:       Muizenberg, Scarborough
+# West:       Long Beach, Scarborough, Big Bay
 # ---------------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------
 
@@ -16,3 +20,7 @@ north_west = ['Muizenberg', 'Kalk Bay Reef', 'Witsand', 'Barclays']
 south_east = ['Clifton First Beach', 'Moses', 'Dunes', 'Innerkom', 'Ledge', 'Outerkom', 'Kessels', 'Llandudno', 
              'Milnerton Lighthouse', 'Misty Cliffs', 'Sunset', 'Scarborough', 'Sandy Bay', 'Solly\'s', 'The Hoek', 
              'The Wedge', 'Thermopylae']
+south = ['Longbeach', 'Llandudno', 'Big Bay']
+north = ['Muizenberg']
+east  = ['Muizenberg', 'Scarborough']
+west  = ['Long Beach', 'Scarborough', 'Big Bay']
