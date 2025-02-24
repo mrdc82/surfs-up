@@ -2,7 +2,7 @@ import googlemaps
 from datetime import datetime
 import pprint
 
-gmaps = googlemaps.Client(key='AIzaSyBFMR8WXvhXfkDGMy7QQ8LvgZJaP6Ovp2Y')
+gmaps = googlemaps.Client(key='YOUR GOOGLE API KEY')
 
 location_search = input("Enter location name: ")
 
@@ -14,10 +14,11 @@ google_longitude = nav_points['location']['longitude']
 print(google_latitude)
 print(google_longitude)
 
-# Look up an address with reverse geocoding
-#reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
-
 '''
+# Look up an address with reverse geocoding
+reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
+
+
 # Request directions via public transit
 now = datetime.now()
 directions_result = gmaps.directions("Sydney Town Hall",

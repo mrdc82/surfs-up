@@ -3,3 +3,5 @@ requests_cache
 pandas
 retry_requests
 dotenv
+googlemaps
+pprint
