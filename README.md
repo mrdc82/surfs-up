@@ -1,11 +1,11 @@
 # Surf Weather App
 
 ## Overview
-The **Surf Weather App** is a Python-based application that gathers real-time weather data from [WeatherAPI.com](https://www.weatherapi.com/) and [Open-Meteo.com](https://open-meteo.com/) to determine the best surfing conditions in various locations around the Western Cape, South Africa. When optimal surf conditions are met, the app displays all locations that currently offer the best waves for surfing.
+The **Surf Weather App** is a Python-based application that gathers real-time weather data from [Open-Meteo.com](https://open-meteo.com/) to determine the best surfing conditions in various locations around the Western Cape, South Africa. When optimal surf conditions are met, the app displays all locations that currently offer the best waves for surfing.
 
 ## Features
-- Fetches live weather data using the `weatherapi.com` API.
-- Collects marine weather data such as swell height, direction, and period from `open-meteo.com`.
+- Fetches live weather data using the `open-meteo.com` API.
+- Collects marine and weather data such as swell height, direction, and period from `open-meteo.com`.
 - Analyzes surf conditions based on key weather parameters.
 - Compares conditions at multiple surf locations in the Western Cape.
 - Displays a list of the best surf spots at the time of execution.
@@ -24,44 +24,56 @@ pip install python-dotenv
 ```
 
 ## Usage
-1. Obtain an API key from [WeatherAPI.com](https://www.weatherapi.com/) if needed.
-2. Save the API key in a `.env` file or modify `weatherapi.py` to include it.
-3. Run the scripts:
-   ```sh
-   python weatherapi.py
-   ```
+1. Open-Meteo does not make use of an API Key for non-commercial use, but is limited to less than 10,000 requests per day.
+2. Run the scripts:
    ```sh
    python marineweather.py
    ```
-4. `weatherapi.py` fetches general weather data, while `marineweather.py` collects marine-specific conditions.
-5. The scripts will fetch the weather data and display the best surf locations based on predefined criteria.
+3. `marineweather.py` collects marine-specific conditions.
+4. The script will fetch the weather data and display the best surf locations based on predefined criteria.
+5. The script makes calls to `condition_locations.py` and `geolocations.py` modules for co-ordinates and location names.
 
 ## Configuration
-You can modify the criteria for optimal surf conditions in `weatherapi.py` and `marineweather.py`, such as:
+You can modify the criteria for optimal surf conditions in `marineweather.py`, such as:
 - Wind direction
 - Swell height
 - Swell period
 - Wave consistency
 
-Ensure the `.env` file contains:
+If you take a non-commercial license, ensure the `.env` file contains:
 ```
 API_KEY=your_api_key_here
 ```
 
-The scripts also require the following imports:
-```python
-import json
-from os import getenv
-from dotenv import load_dotenv
+The scripts requires the following imports:
+```sh
+pip install -r requirements.txt
 ```
 
 ## Example Output
 ```
-Fetching weather data...
-Fetching marine weather data...
-Best surf spots right now:
-- Muizenberg: 3m swell, offshore wind
-- Big Bay: 2.5m swell, cross-shore wind
+----------------------------------
+Coordinates: -34.29,18.46
+Location: BLACK ROCK
+Current time: 2025-02-24 17:00:00
+Current wind direction S
+Current wind speed: 7m/s
+Current temperature: 22℃
+Current swell height: 2.22m
+Current swell direction: SW
+Current swell period: 9s
+Current water temperature: 13℃
+----------------------------------
+
+These are your best spots based on wind conditions only.
+You'll need to check online for more details
+---------------------------------------------------------
+Llandudno (beautiful beach, heavy waves)
+Dungeons (Hout Bay) (big wave spot)
+Outer Kom / Inner Kom (great left-hand point break)
+Misty Cliffs (fun for barrels)
+Scarborough (powerful beach break)
+Long Beach (Kommetjie) (best for all skill levels, clean waves)
 ```
 
 ## Contributing
