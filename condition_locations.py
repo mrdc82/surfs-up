@@ -20,7 +20,9 @@ north_west = ['Muizenberg', 'Kalk Bay Reef', 'Witsand', 'Barclays']
 south_east = ['Clifton First Beach', 'Moses', 'Dunes', 'Innerkom', 'Ledge', 'Outerkom', 'Kessels', 'Llandudno', 
              'Milnerton Lighthouse', 'Misty Cliffs', 'Sunset', 'Scarborough', 'Sandy Bay', 'Solly\'s', 'The Hoek', 
              'The Wedge', 'Thermopylae']
-south = ['Longbeach', 'Llandudno', 'Big Bay']
-north = ['Muizenberg']
-east  = ['Muizenberg', 'Scarborough']
-west  = ['Long Beach', 'Scarborough', 'Big Bay']
+south = ['Llandudno (beautiful beach, heavy waves)','Dungeons (Hout Bay) (big wave spot)','Outer Kom / Inner Kom (great left-hand point break)','Witsands (fun for barrels)','Scarborough (powerful beach break)',
+         'Long Beach (Kommetjie) (best for all skill levels, clean waves)']
+north = ['Muizenberg (best for beginners, long rides)','Kalk Bay Reef (for experienced surfers, heavy barrel)','Fish Hoek (good for longboarders)','Dangers Beach (hollow waves, intermediate to advanced)',
+         'Strand (beach break, works well in north winds)']
+east  = ['Big Bay (messy but can be okay)','Blouberg (kite surfers love this wind, but surf can be bumpy)','Llandudno (protected enough to handle some east winds)',]
+west  = ['Muizenberg (offshore and clean)','Kalk Bay Reef (epic barrels)','Strand (long rides, fun waves)','Dangers Beach (sharper peaks, hollower waves)']

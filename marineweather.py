@@ -124,7 +124,7 @@ wind_and_swell_spots = "It is absolutely mint at these locations my bru!\n\
 ----------------------------------------------------------------"
 wind_spots = "These are your best spots based on wind conditions only.\n\
 You'll need to check online for more details\n\
-----------------------------------------------------------------"
+---------------------------------------------------------"
 
 # these are the absolute best results for rippers
 if current_swell_wave_height > 2.0:
@@ -154,8 +154,8 @@ if current_swell_wave_height > 2.0:
             print(spot)
         print(ripping_spots)
 else:
-    print("nothing")
-print('----------------------------------------------------------------')
+    pass
+
 
 # these are results based on the right wind and swell directions.
 if current_swell_wave_height in range(1,2):
@@ -184,7 +184,8 @@ if current_swell_wave_height in range(1,2):
         for spot in condition_locations.west:
             print(spot)
     print(wind_and_swell_spots)
-print('----------------------------------------------------------------')
+else:
+    pass
 
 # these are results based on wind conditions only.
 # there is no indication of the swell being any good.
@@ -213,5 +214,5 @@ elif curr_wind_direction == "E":
 elif curr_wind_direction == "W":
     for spot in condition_locations.west:
         print(spot)
-
-print('----------------------------------------------------------------')
+else:
+    pass
