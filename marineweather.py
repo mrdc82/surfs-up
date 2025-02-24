@@ -5,7 +5,6 @@ from retry_requests import retry
 import datetime
 import geolocations as gl
 import condition_locations
-import weather
 
 # user is asked for location
 ask_location = input("Input location: ")
@@ -22,6 +21,21 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 
 # Make sure all required weather variables are listed here
 # The order of variables in hourly or daily is important to assign them correctly below
+weather_url = "https://api.open-meteo.com/v1/forecast"
+weather_params = {
+	"latitude": {latitude},
+	"longitude": {longitude},
+	"current": ["temperature_2m", "wind_speed_10m"],
+	"wind_speed_unit": "ms"
+}
+weather_responses = openmeteo.weather_api(weather_url, params=weather_params)
+weather_response = weather_responses[0]
+# Current values. The order of variables needs to be the same as requested.
+weather_current = weather_response.Current()
+weather_current_temperature_2m = weather_current.Variables(0).Value()
+weather_current_wind_speed_10m = weather_current.Variables(1).Value()
+
+
 url = "https://marine-api.open-meteo.com/v1/marine"
 params = {
 	"latitude": {latitude},
@@ -93,8 +107,8 @@ elif current_swell_wave_direction in range(292, 337):
 
 print(f"Current time: {stringtime}")
 print(f"Current wind direction {curr_wind_direction}")
-print(f"Current wind speed: {int(weather.current_wind_speed_10m)}m/s")
-print(f"Current temperature: {int(weather.current_temperature_2m)}\u2103")
+print(f"Current wind speed: {int(weather_current_wind_speed_10m)}m/s")
+print(f"Current temperature: {int(weather_current_temperature_2m)}\u2103")
 print(f"Current swell height: {current_swell_wave_height:.2f}m")
 print(f"Current swell direction: {curr_swell_direction}")
 print(f"Current swell period: {int(current_swell_wave_period)}s")
