@@ -40,7 +40,8 @@ url = "https://marine-api.open-meteo.com/v1/marine"
 params = {
 	"latitude": {latitude},
 	"longitude": {longitude},
-	"current": ["wave_height", "wave_direction", "wave_period", "wind_wave_direction", "swell_wave_height", "swell_wave_direction", "swell_wave_period"]
+	"current": ["wave_height", "wave_direction", "wave_period", "wind_wave_direction", 
+             "swell_wave_height", "swell_wave_direction", "swell_wave_period", "sea_surface_temperature"]
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -66,6 +67,8 @@ current_swell_wave_height = current.Variables(4).Value()
 current_swell_wave_direction = current.Variables(5).Value()
 
 current_swell_wave_period = current.Variables(6).Value()
+
+current_sea_surface_temperature = current.Variables(7).Value() - 3
 
 stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -112,11 +115,81 @@ print(f"Current temperature: {int(weather_current_temperature_2m)}\u2103")
 print(f"Current swell height: {current_swell_wave_height:.2f}m")
 print(f"Current swell direction: {curr_swell_direction}")
 print(f"Current swell period: {int(current_swell_wave_period)}s")
+print(f"Current water temperature: {int(current_sea_surface_temperature)}\u2103")
 print('----------------------------------\n')
 
-best_spots = "These are your top spots right now"
+ripping_spots = "It is ripping out there my bru! Get on it!\n\
+----------------------------------------------------------------"
+wind_and_swell_spots = "It is absolutely mint at these locations my bru!\n\
+----------------------------------------------------------------"
+wind_spots = "These are your best spots based on wind conditions only.\n\
+You'll need to check online for more details\n\
+---------------------------------------------------------"
 
-print(best_spots + '\n----------------------------------')
+# these are the absolute best results for rippers
+if current_swell_wave_height > 2.0:
+    if curr_wind_direction == "SE" and curr_swell_direction == "NW":
+        for spot in condition_locations.south_east:
+            print(spot)
+    elif curr_wind_direction == "SW" and curr_swell_direction == "NE":
+        for spot in condition_locations.south_west:
+            print(spot)
+    elif curr_wind_direction == "NE" and curr_swell_direction == "SW":
+        for spot in condition_locations.north_east:
+            print(spot)
+    elif curr_wind_direction == "NW" and curr_swell_direction == "SE":
+        for spot in condition_locations.north_west:
+            print(spot)
+    elif curr_wind_direction == "S" and (curr_swell_direction == "NE" or curr_swell_direction == "NW" or curr_swell_direction == "N"):
+        for spot in condition_locations.south_desc:
+            print(spot)
+    elif curr_wind_direction == "N" and (curr_swell_direction == "SE" or curr_swell_direction == "SW" or curr_swell_direction == "S"):
+        for spot in condition_locations.north_desc:
+            print(spot)
+    elif curr_wind_direction == "E" and (curr_swell_direction == "NW" or curr_swell_direction == "SW" or curr_swell_direction == "W"):
+        for spot in condition_locations.east_desc:
+            print(spot)
+    elif curr_wind_direction == "W" and (curr_swell_direction == "NE" or curr_swell_direction == "SE" or curr_swell_direction == "E"):
+        for spot in condition_locations.west_desc:
+            print(spot)
+        print(ripping_spots)
+else:
+    pass
+
+
+# these are results based on the right wind and swell directions.
+if current_swell_wave_height in range(1,2):
+    if curr_wind_direction == "SE" and curr_swell_direction == "NW":
+        for spot in condition_locations.south_east:
+            print(spot)
+    elif curr_wind_direction == "SW" and curr_swell_direction == "NE":
+        for spot in condition_locations.south_west:
+            print(spot)
+    elif curr_wind_direction == "NE" and curr_swell_direction == "SW":
+        for spot in condition_locations.north_east:
+            print(spot)
+    elif curr_wind_direction == "NW" and curr_swell_direction == "SE":
+        for spot in condition_locations.north_west:
+            print(spot)
+    elif curr_wind_direction == "S" and (curr_swell_direction == "NE" or curr_swell_direction == "NW" or curr_swell_direction == "N"):
+        for spot in condition_locations.south_desc:
+            print(spot)
+    elif curr_wind_direction == "N" and (curr_swell_direction == "SE" or curr_swell_direction == "SW" or curr_swell_direction == "S"):
+        for spot in condition_locations.north_desc:
+            print(spot)
+    elif curr_wind_direction == "E" and (curr_swell_direction == "NW" or curr_swell_direction == "SW" or curr_swell_direction == "W"):
+        for spot in condition_locations.east_desc:
+            print(spot)
+    elif curr_wind_direction == "W" and (curr_swell_direction == "NE" or curr_swell_direction == "SE" or curr_swell_direction == "E"):
+        for spot in condition_locations.west_desc:
+            print(spot)
+    print(wind_and_swell_spots)
+else:
+    pass
+
+# these are results based on wind conditions only.
+# there is no indication of the swell being any good.
+print(wind_spots)
 if curr_wind_direction == "SE":
     for spot in condition_locations.south_east:
         print(spot)
@@ -130,16 +203,16 @@ elif curr_wind_direction == "NW":
     for spot in condition_locations.north_west:
         print(spot)
 elif curr_wind_direction == "S":
-    for spot in condition_locations.south:
+    for spot in condition_locations.south_desc:
         print(spot)
 elif curr_wind_direction == "N":
-    for spot in condition_locations.north:
+    for spot in condition_locations.north_desc:
         print(spot)
 elif curr_wind_direction == "E":
-    for spot in condition_locations.east:
+    for spot in condition_locations.east_desc:
         print(spot)
 elif curr_wind_direction == "W":
-    for spot in condition_locations.west:
+    for spot in condition_locations.west_desc:
         print(spot)
-
-print('----------------------------------')
+else:
+    pass
