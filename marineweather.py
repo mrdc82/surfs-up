@@ -8,17 +8,11 @@ import check_conditions
 
 # user is asked for location
 ask_location = input("Input location: ")
+ask_location = ask_location.lower().replace(' ','_')
 
-if ask_location == 'muizenberg':
-    latitude = gl.locations['muizenberg']['lat']
-    longitude = gl.locations['muizenberg']['lon']
-    loc_name = ask_location.upper()
-elif ask_location == 'black rock':
-    latitude = gl.locations['black_rock']['lat']
-    longitude = gl.locations['black_rock']['lon']
-    loc_name = ask_location.upper()
-else:
-    print('Location does not exist')
+latitude = gl.locations[ask_location]['lat']
+longitude = gl.locations[ask_location]['lon']
+loc_name = ask_location.upper().replace('_', ' ')
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -111,5 +105,9 @@ if curr_wind_direction == "SE":
         print(spot)
 elif curr_wind_direction == "SW":
     print(check_conditions.south_west)
+elif curr_wind_direction == "NE":
+    print(check_conditions.north_east)
+elif curr_wind_direction == "NW":
+    print(check_conditions.north_west)   
 
 print('----------------------------------')
