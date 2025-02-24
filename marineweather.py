@@ -4,7 +4,7 @@ import pandas as pd
 from retry_requests import retry
 import datetime
 import geolocations as gl
-import check_conditions
+import condition_locations
 
 # user is asked for location
 ask_location = input("Input location: ")
@@ -101,13 +101,13 @@ best_spots = "These are your top spots right now"
 
 if curr_wind_direction == "SE":
     print(best_spots + '\n----------------------------------')
-    for spot in check_conditions.south_east:
+    for spot in condition_locations.south_east:
         print(spot)
 elif curr_wind_direction == "SW":
-    print(check_conditions.south_west)
+    print(condition_locations.south_west)
 elif curr_wind_direction == "NE":
-    print(check_conditions.north_east)
+    print(condition_locations.north_east)
 elif curr_wind_direction == "NW":
-    print(check_conditions.north_west)   
+    print(condition_locations.north_west)   
 
 print('----------------------------------')
