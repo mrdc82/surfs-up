@@ -5,6 +5,7 @@ from retry_requests import retry
 import datetime
 import geolocations as gl
 import condition_locations
+import weather
 
 # user is asked for location
 ask_location = input("Input location: ")
@@ -92,6 +93,8 @@ elif current_swell_wave_direction in range(292, 337):
 
 print(f"Current time: {stringtime}")
 print(f"Current wind direction {curr_wind_direction}")
+print(f"Current wind speed: {int(weather.current_wind_speed_10m)}m/s")
+print(f"Current temperature: {int(weather.current_temperature_2m)}\u2103")
 print(f"Current swell height: {current_swell_wave_height:.2f}m")
 print(f"Current swell direction: {curr_swell_direction}")
 print(f"Current swell period: {int(current_swell_wave_period)}s")
