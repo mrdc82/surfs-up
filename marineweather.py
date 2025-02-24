@@ -141,16 +141,16 @@ if current_swell_wave_height > 2.0:
         for spot in condition_locations.north_west:
             print(spot)
     elif curr_wind_direction == "S" and (curr_swell_direction == "NE" or curr_swell_direction == "NW" or curr_swell_direction == "N"):
-        for spot in condition_locations.south:
+        for spot in condition_locations.south_desc:
             print(spot)
     elif curr_wind_direction == "N" and (curr_swell_direction == "SE" or curr_swell_direction == "SW" or curr_swell_direction == "S"):
-        for spot in condition_locations.north:
+        for spot in condition_locations.north_desc:
             print(spot)
     elif curr_wind_direction == "E" and (curr_swell_direction == "NW" or curr_swell_direction == "SW" or curr_swell_direction == "W"):
-        for spot in condition_locations.east:
+        for spot in condition_locations.east_desc:
             print(spot)
     elif curr_wind_direction == "W" and (curr_swell_direction == "NE" or curr_swell_direction == "SE" or curr_swell_direction == "E"):
-        for spot in condition_locations.west:
+        for spot in condition_locations.west_desc:
             print(spot)
         print(ripping_spots)
 else:
@@ -172,16 +172,16 @@ if current_swell_wave_height in range(1,2):
         for spot in condition_locations.north_west:
             print(spot)
     elif curr_wind_direction == "S" and (curr_swell_direction == "NE" or curr_swell_direction == "NW" or curr_swell_direction == "N"):
-        for spot in condition_locations.south:
+        for spot in condition_locations.south_desc:
             print(spot)
     elif curr_wind_direction == "N" and (curr_swell_direction == "SE" or curr_swell_direction == "SW" or curr_swell_direction == "S"):
-        for spot in condition_locations.north:
+        for spot in condition_locations.north_desc:
             print(spot)
     elif curr_wind_direction == "E" and (curr_swell_direction == "NW" or curr_swell_direction == "SW" or curr_swell_direction == "W"):
-        for spot in condition_locations.east:
+        for spot in condition_locations.east_desc:
             print(spot)
     elif curr_wind_direction == "W" and (curr_swell_direction == "NE" or curr_swell_direction == "SE" or curr_swell_direction == "E"):
-        for spot in condition_locations.west:
+        for spot in condition_locations.west_desc:
             print(spot)
     print(wind_and_swell_spots)
 else:
@@ -203,16 +203,16 @@ elif curr_wind_direction == "NW":
     for spot in condition_locations.north_west:
         print(spot)
 elif curr_wind_direction == "S":
-    for spot in condition_locations.south:
+    for spot in condition_locations.south_desc:
         print(spot)
 elif curr_wind_direction == "N":
-    for spot in condition_locations.north:
+    for spot in condition_locations.north_desc:
         print(spot)
 elif curr_wind_direction == "E":
-    for spot in condition_locations.east:
+    for spot in condition_locations.east_desc:
         print(spot)
 elif curr_wind_direction == "W":
-    for spot in condition_locations.west:
+    for spot in condition_locations.west_desc:
         print(spot)
 else:
     pass
