@@ -4,6 +4,7 @@ import pandas as pd
 from retry_requests import retry
 import datetime
 import geolocations as gl
+import check_conditions
 
 # user is asked for location
 ask_location = input("Input location: ")
@@ -36,6 +37,7 @@ responses = openmeteo.weather_api(url, params=params)
 
 # Process first location. Add a for-loop for multiple locations or weather models
 response = responses[0]
+print('\n----------------------------------')
 print(f"Coordinates: {response.Latitude():.2f},{response.Longitude():.2f}")
 print(f"Location: {loc_name}")
 
@@ -60,42 +62,54 @@ stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d 
 
 # a compass for wind direction
 if current_wind_wave_direction in range(0,22):
-    cwvd = "N"
+    curr_wind_direction = "N"
 elif current_wind_wave_direction in range(22,67):
-    cwvd = "NE"
+    curr_wind_direction = "NE"
 elif current_wind_wave_direction in range(67,112):
-    cwvd = "E"
+    curr_wind_direction = "E"
 elif current_wind_wave_direction in range(112,157):
-    cwvd = "SE"
+    curr_wind_direction = "SE"
 elif current_wind_wave_direction in range(157,202):
-    cwvd = "S"
+    curr_wind_direction = "S"
 elif current_wind_wave_direction in range(202,247):
-    cwvd = "SW"
+    curr_wind_direction = "SW"
 elif current_wind_wave_direction in range(247,292):
-    cwvd = "W"
+    curr_wind_direction = "W"
 elif current_wind_wave_direction in range(292, 337):
-    cwvd = "NW"
+    curr_wind_direction = "NW"
 
 # a compass for swell direction
 if current_swell_wave_direction in range(0,22):
-    cwsd = "N"
+    curr_swell_direction = "N"
 elif current_swell_wave_direction in range(22,67):
-    cwsd = "NE"
+    curr_swell_direction = "NE"
 elif current_swell_wave_direction in range(67,112):
-    cwsd = "E"
+    curr_swell_direction = "E"
 elif current_swell_wave_direction in range(112,157):
-    cwsd = "SE"
+    curr_swell_direction = "SE"
 elif current_swell_wave_direction in range(157,202):
-    cwsd = "S"
+    curr_swell_direction = "S"
 elif current_swell_wave_direction in range(202,247):
-    cwsd = "SW"
+    curr_swell_direction = "SW"
 elif current_swell_wave_direction in range(247,292):
-    cwsd = "W"
+    curr_swell_direction = "W"
 elif current_swell_wave_direction in range(292, 337):
-    cwsd = "NW"
+    curr_swell_direction = "NW"
 
 print(f"Current time: {stringtime}")
-print(f"Current wind direction {cwvd}")
+print(f"Current wind direction {curr_wind_direction}")
 print(f"Current swell height: {current_swell_wave_height:.2f}m")
-print(f"Current swell direction: {cwsd}")
+print(f"Current swell direction: {curr_swell_direction}")
 print(f"Current swell period: {int(current_swell_wave_period)}s")
+print('----------------------------------\n')
+
+best_spots = "These are your top spots right now"
+
+if curr_wind_direction == "SE":
+    print(best_spots + '\n----------------------------------')
+    for spot in check_conditions.south_east:
+        print(spot)
+elif curr_wind_direction == "SW":
+    print(check_conditions.south_west)
+
+print('----------------------------------')
