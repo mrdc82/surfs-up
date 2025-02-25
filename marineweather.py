@@ -5,6 +5,7 @@ from retry_requests import retry
 import datetime
 import geolocations as gl
 import condition_locations
+import location_data
 
 # user is asked for location
 ask_location = input("Input location: ")
@@ -71,6 +72,13 @@ current_swell_wave_period = current.Variables(6).Value()
 current_sea_surface_temperature = current.Variables(7).Value() - 3
 
 stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
+
+# Add data entries to table in location_data module
+location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
+                        current_swell_wave_period, current_sea_surface_temperature)
+
+for row in location_data.table:
+    print(row)
 
 # a compass for wind direction
 if current_wind_wave_direction in range(0,22):
@@ -187,10 +195,12 @@ if current_swell_wave_height in range(1,2):
 else:
     pass
 
+
+
 # these are results based on wind conditions only.
 # there is no indication of the swell being any good.
 print(wind_spots)
-if curr_wind_direction == "SE":
+if curr_wind_direction == "SE": 
     for spot in condition_locations.south_east:
         print(spot)
 elif curr_wind_direction == "SW":
