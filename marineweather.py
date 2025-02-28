@@ -5,72 +5,98 @@ from retry_requests import retry
 import datetime
 import geolocations as gl
 import condition_locations
+import location_data
+from pprint import pprint
 
 # user is asked for location
-ask_location = input("Input location: ")
-ask_location = ask_location.lower().replace(' ','_')
+#ask_location = input("Input location: ")
+#ask_location = ask_location.lower().replace(' ','_')
 
-latitude = gl.locations[ask_location]['lat']
-longitude = gl.locations[ask_location]['lon']
-loc_name = ask_location.upper().replace('_', ' ')
+#latitude = gl.locations[ask_location]['lat']
+#longitude = gl.locations[ask_location]['lon']
+#loc_name = ask_location.upper().replace('_', ' ')
+
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
 openmeteo = openmeteo_requests.Client(session = retry_session)
 
-# Make sure all required weather variables are listed here
-# The order of variables in hourly or daily is important to assign them correctly below
-weather_url = "https://api.open-meteo.com/v1/forecast"
-weather_params = {
-	"latitude": {latitude},
-	"longitude": {longitude},
-	"current": ["temperature_2m", "wind_speed_10m"],
-	"wind_speed_unit": "ms"
-}
-weather_responses = openmeteo.weather_api(weather_url, params=weather_params)
-weather_response = weather_responses[0]
-# Current values. The order of variables needs to be the same as requested.
-weather_current = weather_response.Current()
-weather_current_temperature_2m = weather_current.Variables(0).Value()
-weather_current_wind_speed_10m = weather_current.Variables(1).Value()
+def get_weather():
+    global weather_current_wind_speed_10m
+    global weather_current_temperature_2m
+    # Make sure all required weather variables are listed here
+    # The order of variables in hourly or daily is important to assign them correctly below
+    weather_url = "https://api.open-meteo.com/v1/forecast"
+    weather_params = {
+        "latitude": {latitude},
+        "longitude": {longitude},
+        "current": ["temperature_2m", "wind_speed_10m"],
+        "wind_speed_unit": "ms"
+    }
+    weather_responses = openmeteo.weather_api(weather_url, params=weather_params)
+    weather_response = weather_responses[0]
+    # Current values. The order of variables needs to be the same as requested.
+    weather_current = weather_response.Current()
+    weather_current_temperature_2m = weather_current.Variables(0).Value()
+    weather_current_wind_speed_10m = weather_current.Variables(1).Value() * 2
 
+def get_marine_data():
+    global current_swell_wave_height
+    global current_swell_wave_period
+    global current_sea_surface_temperature
+    global current_wind_wave_direction
+    global current_swell_wave_direction
+    global stringtime
 
-url = "https://marine-api.open-meteo.com/v1/marine"
-params = {
-	"latitude": {latitude},
-	"longitude": {longitude},
-	"current": ["wave_height", "wave_direction", "wave_period", "wind_wave_direction", 
-             "swell_wave_height", "swell_wave_direction", "swell_wave_period", "sea_surface_temperature"]
-}
-responses = openmeteo.weather_api(url, params=params)
+    url = "https://marine-api.open-meteo.com/v1/marine"
+    params = {
+        "latitude": {latitude},
+        "longitude": {longitude},
+        "current": ["wave_height", "wave_direction", "wave_period", "wind_wave_direction", 
+                "swell_wave_height", "swell_wave_direction", "swell_wave_period", "sea_surface_temperature"]
+    }
+    responses = openmeteo.weather_api(url, params=params)
 
-# Process first location. Add a for-loop for multiple locations or weather models
-response = responses[0]
-print('\n----------------------------------')
-print(f"Coordinates: {response.Latitude():.2f},{response.Longitude():.2f}")
-print(f"Location: {loc_name}")
+    # Process first location. Add a for-loop for multiple locations or weather models
+    response = responses[0]
+    print('\n----------------------------------')
+    print(f"Coordinates: {response.Latitude():.2f},{response.Longitude():.2f}")
+    print(f"Location: {loc_name}")
 
-# Current values. The order of variables needs to be the same as requested.
-current = response.Current()
+    # Current values. The order of variables needs to be the same as requested.
+    current = response.Current()
 
-current_wave_height = current.Variables(0).Value()
+    current_wave_height = current.Variables(0).Value()
 
-current_wave_direction = current.Variables(1).Value()
+    current_wave_direction = current.Variables(1).Value()
 
-current_wave_period = current.Variables(2).Value()
+    current_wave_period = current.Variables(2).Value()
 
-current_wind_wave_direction = current.Variables(3).Value()
+    current_wind_wave_direction = current.Variables(3).Value()
 
-current_swell_wave_height = current.Variables(4).Value()
+    current_swell_wave_height = current.Variables(4).Value() * 2
 
-current_swell_wave_direction = current.Variables(5).Value()
+    current_swell_wave_direction = current.Variables(5).Value()
 
-current_swell_wave_period = current.Variables(6).Value()
+    current_swell_wave_period = current.Variables(6).Value()
 
-current_sea_surface_temperature = current.Variables(7).Value() - 3
+    current_sea_surface_temperature = current.Variables(7).Value()
 
-stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
+    stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
+
+# Iterate through all locations
+# Add data entries to table in location_data module
+for l in gl.locations:
+    latitude = gl.locations[l]['lat']
+    longitude = gl.locations[l]['lon']
+    loc_name = l.upper().replace('_', ' ')
+    get_weather()
+    get_marine_data()
+    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
+                            current_swell_wave_period, current_sea_surface_temperature)
+
+#pprint(location_data.table)
 
 # a compass for wind direction
 if current_wind_wave_direction in range(0,22):
@@ -190,7 +216,7 @@ else:
 # these are results based on wind conditions only.
 # there is no indication of the swell being any good.
 print(wind_spots)
-if curr_wind_direction == "SE":
+if curr_wind_direction == "SE": 
     for spot in condition_locations.south_east:
         print(spot)
 elif curr_wind_direction == "SW":
