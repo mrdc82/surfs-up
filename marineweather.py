@@ -7,15 +7,19 @@ import geolocations as gl
 import condition_locations
 import location_data
 from pprint import pprint
+import numpy as np
 
+
+# Some print stuff for cleanliness
+dashes = "-"
 # user is asked for location
 #ask_location = input("Input location: ")
-#ask_location = ask_location.lower().replace(' ','_')
+ask_location = "muizenberg"
+ask_location = ask_location.lower().replace(' ','_')
 
-#latitude = gl.locations[ask_location]['lat']
-#longitude = gl.locations[ask_location]['lon']
-#loc_name = ask_location.upper().replace('_', ' ')
-
+latitude = gl.locations[ask_location]['lat']
+longitude = gl.locations[ask_location]['lon']
+loc_name = ask_location.upper().replace('_', ' ')
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -38,8 +42,8 @@ def get_weather():
     weather_response = weather_responses[0]
     # Current values. The order of variables needs to be the same as requested.
     weather_current = weather_response.Current()
-    weather_current_temperature_2m = weather_current.Variables(0).Value()
-    weather_current_wind_speed_10m = weather_current.Variables(1).Value() * 2
+    weather_current_temperature_2m = int(weather_current.Variables(0).Value())
+    weather_current_wind_speed_10m = int(weather_current.Variables(1).Value() * 2)
 
 def get_marine_data():
     global current_swell_wave_height
@@ -67,36 +71,39 @@ def get_marine_data():
     # Current values. The order of variables needs to be the same as requested.
     current = response.Current()
 
-    current_wave_height = current.Variables(0).Value()
+    current_wave_height = int(current.Variables(0).Value())
 
-    current_wave_direction = current.Variables(1).Value()
+    current_wave_direction = int(current.Variables(1).Value())
 
-    current_wave_period = current.Variables(2).Value()
+    current_wave_period = int(current.Variables(2).Value())
 
-    current_wind_wave_direction = current.Variables(3).Value()
+    current_wind_wave_direction = int(current.Variables(3).Value())
 
-    current_swell_wave_height = current.Variables(4).Value() * 2
+    current_swell_wave_height = round((current.Variables(4).Value() * 2), 2)
 
-    current_swell_wave_direction = current.Variables(5).Value()
+    current_swell_wave_direction = int(current.Variables(5).Value())
 
-    current_swell_wave_period = current.Variables(6).Value()
+    current_swell_wave_period = int(current.Variables(6).Value())
 
-    current_sea_surface_temperature = current.Variables(7).Value()
+    current_sea_surface_temperature = int(current.Variables(7).Value() + 6)
 
     stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
 
 # Iterate through all locations
 # Add data entries to table in location_data module
-for l in gl.locations:
-    latitude = gl.locations[l]['lat']
-    longitude = gl.locations[l]['lon']
-    loc_name = l.upper().replace('_', ' ')
-    get_weather()
-    get_marine_data()
-    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
-                            current_swell_wave_period, current_sea_surface_temperature)
+#for l in gl.locations:
+#    latitude = gl.locations[l]['lat']
+#    longitude = gl.locations[l]['lon']
+#    loc_name = l.upper().replace('_', ' ')
+#    get_weather()
+#    get_marine_data()
+#    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
+#                            current_swell_wave_period, current_sea_surface_temperature)
 
 #pprint(location_data.table)
+
+get_weather()
+get_marine_data()
 
 # a compass for wind direction
 if current_wind_wave_direction in range(0,22):
@@ -144,16 +151,36 @@ print(f"Current swell period: {int(current_swell_wave_period)}s")
 print(f"Current water temperature: {int(current_sea_surface_temperature)}\u2103")
 print('----------------------------------\n')
 
-ripping_spots = "It is ripping out there my bru! Get on it!\n\
-----------------------------------------------------------------"
-wind_and_swell_spots = "It is absolutely mint at these locations my bru!\n\
-----------------------------------------------------------------"
-wind_spots = "These are your best spots based on wind conditions only.\n\
-You'll need to check online for more details\n\
----------------------------------------------------------"
+# Only applies to wind direction as wind will have very little effect. Swell must be over 0.5m.
+if weather_current_wind_speed_10m < 5 and current_swell_wave_height > 0.5:
+    if curr_wind_direction == "SE": 
+        for spot in condition_locations.south_east:
+            print(spot)
+    elif curr_wind_direction == "SW":
+        for spot in condition_locations.south_west:
+            print(spot)
+    elif curr_wind_direction == "NE":
+        for spot in condition_locations.north_east:
+            print(spot)
+    elif curr_wind_direction == "NW":
+        for spot in condition_locations.north_west:
+            print(spot)
+    elif curr_wind_direction == "S":
+        for spot in condition_locations.south_desc:
+            print(spot)
+    elif curr_wind_direction == "N":
+        for spot in condition_locations.north_desc:
+            print(spot)
+    elif curr_wind_direction == "E":
+        for spot in condition_locations.east_desc:
+            print(spot)
+    elif curr_wind_direction == "W":
+        for spot in condition_locations.west_desc:
+            print(spot)
+    else:
+        pass
 
-# these are the absolute best results for rippers
-if current_swell_wave_height > 2.0:
+def wind_and_swell():
     if curr_wind_direction == "SE" and curr_swell_direction == "NW":
         for spot in condition_locations.south_east:
             print(spot)
@@ -178,67 +205,23 @@ if current_swell_wave_height > 2.0:
     elif curr_wind_direction == "W" and (curr_swell_direction == "NE" or curr_swell_direction == "SE" or curr_swell_direction == "E"):
         for spot in condition_locations.west_desc:
             print(spot)
-        print(ripping_spots)
-else:
-    pass
+    else:
+        pass
 
+# List comprehension for swell heights represented in floats.
+swell_beginners = [float(round(sb, 10)) for sb in np.arange(0.5,1.3,0.01)]
+swell_intermediate = [float(round(sb, 10)) for sb in np.arange(1.2,2.6,0.01)]
+swell_advanced = [float(round(sb, 10)) for sb in np.arange(2.5,4.0,0.01)]
 
-# these are results based on the right wind and swell directions.
-if current_swell_wave_height in range(1,2):
-    if curr_wind_direction == "SE" and curr_swell_direction == "NW":
-        for spot in condition_locations.south_east:
-            print(spot)
-    elif curr_wind_direction == "SW" and curr_swell_direction == "NE":
-        for spot in condition_locations.south_west:
-            print(spot)
-    elif curr_wind_direction == "NE" and curr_swell_direction == "SW":
-        for spot in condition_locations.north_east:
-            print(spot)
-    elif curr_wind_direction == "NW" and curr_swell_direction == "SE":
-        for spot in condition_locations.north_west:
-            print(spot)
-    elif curr_wind_direction == "S" and (curr_swell_direction == "NE" or curr_swell_direction == "NW" or curr_swell_direction == "N"):
-        for spot in condition_locations.south_desc:
-            print(spot)
-    elif curr_wind_direction == "N" and (curr_swell_direction == "SE" or curr_swell_direction == "SW" or curr_swell_direction == "S"):
-        for spot in condition_locations.north_desc:
-            print(spot)
-    elif curr_wind_direction == "E" and (curr_swell_direction == "NW" or curr_swell_direction == "SW" or curr_swell_direction == "W"):
-        for spot in condition_locations.east_desc:
-            print(spot)
-    elif curr_wind_direction == "W" and (curr_swell_direction == "NE" or curr_swell_direction == "SE" or curr_swell_direction == "E"):
-        for spot in condition_locations.west_desc:
-            print(spot)
-    print(wind_and_swell_spots)
+if wind_and_swell():
+    if current_swell_wave_height in swell_beginners and weather_current_wind_speed_10m < 5 and current_swell_wave_period in range(5,10):
+        #wind_and_swell()
+        print(f"Easy long board sessions, great for beginners\n{dashes*45}")
+    elif current_swell_wave_height in swell_intermediate and weather_current_wind_speed_10m in range(0,8) and current_swell_wave_period in range(5,15):
+        #wind_and_swell()
+        print(f"Some good surfing out there, get stuck in\n{dashes*41}")
+    elif current_swell_wave_height in swell_advanced and weather_current_wind_speed_10m in range(0,10) and current_swell_wave_period > 10:
+        #wind_and_swell()
+        print(f"These are next level conditions, beefcake stuff, beginners need not respond!\n{dashes*76}")
 else:
-    pass
-
-# these are results based on wind conditions only.
-# there is no indication of the swell being any good.
-print(wind_spots)
-if curr_wind_direction == "SE": 
-    for spot in condition_locations.south_east:
-        print(spot)
-elif curr_wind_direction == "SW":
-    for spot in condition_locations.south_west:
-        print(spot)
-elif curr_wind_direction == "NE":
-    for spot in condition_locations.north_east:
-        print(spot)
-elif curr_wind_direction == "NW":
-    for spot in condition_locations.north_west:
-        print(spot)
-elif curr_wind_direction == "S":
-    for spot in condition_locations.south_desc:
-        print(spot)
-elif curr_wind_direction == "N":
-    for spot in condition_locations.north_desc:
-        print(spot)
-elif curr_wind_direction == "E":
-    for spot in condition_locations.east_desc:
-        print(spot)
-elif curr_wind_direction == "W":
-    for spot in condition_locations.west_desc:
-        print(spot)
-else:
-    pass
+    print(f"Conditions looking pretty flat out there\n{dashes*40}")
