@@ -96,7 +96,7 @@ for l in gl.locations:
     location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
                             current_swell_wave_period, current_sea_surface_temperature)
 
-pprint(location_data.table)
+#pprint(location_data.table)
 
 # a compass for wind direction
 if current_wind_wave_direction in range(0,22):
