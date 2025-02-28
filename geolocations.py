@@ -1,6 +1,6 @@
 
 locations = {
-    #'cape_town'     : {'lat':-33.9265038911077, 'lon':18.409120519172106},
+    'cape_town'     : {'lat':-33.9265038911077, 'lon':18.409120519172106},
     'muizenberg'    : {'lat':-34.097, 'lon':18.4797},
     'black_rock'    : {'lat':-34.309203125582506, 'lon':18.465065256630176},
     'long_beach'    : {'lat':-34.132450478518756, 'lon':18.3345108351552},
@@ -18,7 +18,7 @@ locations = {
     'scarborough'   : {'lat':-34.202, 'lon':18.372},
     'sunset'        : {'lat':-33.854, 'lon':18.491},
     'milnerton_lighthouse' : {'lat':-33.882, 'lon':18.488},
-    'llandudno'     : {'lat':-34.007, 'lon':18.341},
+    'llandudno'     : {'lat':-34.0103, 'lon':18.3432},
     'die_kom'       : {'lat':-34.142, 'lon':18.322},
     'dunes'         : {'lat':-34.116, 'lon':18.348},
     'clifton'       : {'lat':-33.935, 'lon':18.376}

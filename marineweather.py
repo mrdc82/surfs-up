@@ -12,9 +12,10 @@ import numpy as np
 
 # Some print stuff for cleanliness
 dashes = "-"
+
 # user is asked for location
 #ask_location = input("Input location: ")
-ask_location = "muizenberg"
+ask_location = "cape town"
 ask_location = ask_location.lower().replace(' ','_')
 
 latitude = gl.locations[ask_location]['lat']
@@ -70,35 +71,26 @@ def get_marine_data():
 
     # Current values. The order of variables needs to be the same as requested.
     current = response.Current()
-
     current_wave_height = int(current.Variables(0).Value())
-
     current_wave_direction = int(current.Variables(1).Value())
-
     current_wave_period = int(current.Variables(2).Value())
-
     current_wind_wave_direction = int(current.Variables(3).Value())
-
     current_swell_wave_height = round((current.Variables(4).Value() * 2), 2)
-
     current_swell_wave_direction = int(current.Variables(5).Value())
-
     current_swell_wave_period = int(current.Variables(6).Value())
-
-    current_sea_surface_temperature = int(current.Variables(7).Value() + 6)
-
+    current_sea_surface_temperature = int(current.Variables(7).Value())
     stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
 
 # Iterate through all locations
 # Add data entries to table in location_data module
-#for l in gl.locations:
-#    latitude = gl.locations[l]['lat']
-#    longitude = gl.locations[l]['lon']
-#    loc_name = l.upper().replace('_', ' ')
-#    get_weather()
-#    get_marine_data()
-#    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
-#                            current_swell_wave_period, current_sea_surface_temperature)
+for l in gl.locations:
+    latitude = gl.locations[l]['lat']
+    longitude = gl.locations[l]['lon']
+    loc_name = l.upper().replace('_', ' ')
+    get_weather()
+    get_marine_data()
+    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
+                            current_swell_wave_period, current_sea_surface_temperature)
 
 #pprint(location_data.table)
 
@@ -151,31 +143,31 @@ print(f"Current swell period: {int(current_swell_wave_period)}s")
 print(f"Current water temperature: {int(current_sea_surface_temperature)}\u2103")
 print('----------------------------------\n')
 
-# Only applies to wind direction as wind will have very little effect. Swell must be over 0.5m.
+# Only applies to swell size as wind will have very little effect. Swell must be over 0.5m.
 if weather_current_wind_speed_10m < 5 and current_swell_wave_height > 0.5:
-    if curr_wind_direction == "SE": 
-        for spot in condition_locations.south_east:
-            print(spot)
-    elif curr_wind_direction == "SW":
-        for spot in condition_locations.south_west:
-            print(spot)
-    elif curr_wind_direction == "NE":
-        for spot in condition_locations.north_east:
-            print(spot)
-    elif curr_wind_direction == "NW":
+    if curr_swell_direction == "SE": 
         for spot in condition_locations.north_west:
             print(spot)
+    elif curr_swell_direction == "SW":
+        for spot in condition_locations.north_east:
+            print(spot)
+    elif curr_swell_direction == "NE":
+        for spot in condition_locations.south_west:
+            print(spot)
+    elif curr_wind_direction == "NW":
+        for spot in condition_locations.south_east:
+            print(spot)
     elif curr_wind_direction == "S":
-        for spot in condition_locations.south_desc:
+        for spot in condition_locations.north:
             print(spot)
     elif curr_wind_direction == "N":
-        for spot in condition_locations.north_desc:
+        for spot in condition_locations.south:
             print(spot)
     elif curr_wind_direction == "E":
-        for spot in condition_locations.east_desc:
+        for spot in condition_locations.west:
             print(spot)
     elif curr_wind_direction == "W":
-        for spot in condition_locations.west_desc:
+        for spot in condition_locations.east:
             print(spot)
     else:
         pass
@@ -215,13 +207,10 @@ swell_advanced = [float(round(sb, 10)) for sb in np.arange(2.5,4.0,0.01)]
 
 if wind_and_swell():
     if current_swell_wave_height in swell_beginners and weather_current_wind_speed_10m < 5 and current_swell_wave_period in range(5,10):
-        #wind_and_swell()
         print(f"Easy long board sessions, great for beginners\n{dashes*45}")
     elif current_swell_wave_height in swell_intermediate and weather_current_wind_speed_10m in range(0,8) and current_swell_wave_period in range(5,15):
-        #wind_and_swell()
         print(f"Some good surfing out there, get stuck in\n{dashes*41}")
     elif current_swell_wave_height in swell_advanced and weather_current_wind_speed_10m in range(0,10) and current_swell_wave_period > 10:
-        #wind_and_swell()
         print(f"These are next level conditions, beefcake stuff, beginners need not respond!\n{dashes*76}")
 else:
-    print(f"It's looking flatter than Keira Nightleys tits right now\n{dashes*40}")
+    print(f"\n{dashes*29}\nFlatter than a pancake my bru\n{dashes*29}")
