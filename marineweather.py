@@ -224,4 +224,4 @@ if wind_and_swell():
         #wind_and_swell()
         print(f"These are next level conditions, beefcake stuff, beginners need not respond!\n{dashes*76}")
 else:
-    print(f"Conditions looking pretty flat out there\n{dashes*40}")
+    print(f"It's looking flatter than Keira Nightleys tits right now\n{dashes*40}")
