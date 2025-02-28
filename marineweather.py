@@ -14,8 +14,8 @@ import numpy as np
 dashes = "-"
 
 # user is asked for location
-ask_location = input("Input location: ")
-#ask_location = "muizenberg"
+#ask_location = input("Input location: ")
+ask_location = "cape town"
 ask_location = ask_location.lower().replace(' ','_')
 
 latitude = gl.locations[ask_location]['lat']
@@ -83,14 +83,14 @@ def get_marine_data():
 
 # Iterate through all locations
 # Add data entries to table in location_data module
-#for l in gl.locations:
-#    latitude = gl.locations[l]['lat']
-#    longitude = gl.locations[l]['lon']
-#    loc_name = l.upper().replace('_', ' ')
-#    get_weather()
-#    get_marine_data()
-#    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
-#                            current_swell_wave_period, current_sea_surface_temperature)
+for l in gl.locations:
+    latitude = gl.locations[l]['lat']
+    longitude = gl.locations[l]['lon']
+    loc_name = l.upper().replace('_', ' ')
+    get_weather()
+    get_marine_data()
+    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
+                            current_swell_wave_period, current_sea_surface_temperature)
 
 #pprint(location_data.table)
 
