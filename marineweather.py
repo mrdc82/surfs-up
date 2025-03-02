@@ -14,13 +14,13 @@ import numpy as np
 dashes = "-"
 
 # user is asked for location
-ask_location = input("Input location: ")
+#ask_location = input("Input location: ")
 #ask_location = "cape town"
-ask_location = ask_location.lower().replace(' ','_')
+#ask_location = ask_location.lower().replace(' ','_')
 
-latitude = gl.locations[ask_location]['lat']
-longitude = gl.locations[ask_location]['lon']
-loc_name = ask_location.capitalize().replace('_', ' ')
+#latitude = gl.locations[ask_location]['lat']
+#longitude = gl.locations[ask_location]['lon']
+#loc_name = ask_location.capitalize().replace('_', ' ')
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -83,7 +83,7 @@ def get_marine_data():
 
 # Iterate through all locations
 # Add data entries to table in location_data module
-'''for l in gl.locations:
+for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
     loc_name = l.capitalize().replace('_', ' ')
@@ -91,8 +91,11 @@ def get_marine_data():
     get_marine_data()
     location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
                             current_swell_wave_period, current_sea_surface_temperature)
-'''
-#pprint(location_data.table)
+
+# Convert list to NumPy array
+np_table = np.array(location_data.table, dtype=object)
+# Print the NumPy table
+print(np_table)
 
 get_weather()
 get_marine_data()
@@ -133,7 +136,7 @@ elif current_swell_wave_direction in range(247,292):
 elif current_swell_wave_direction in range(292, 337):
     curr_swell_direction = "NW"
 
-print(f"Current time: {stringtime}")
+'''print(f"Current time: {stringtime}")
 print(f"Current wind direction {curr_wind_direction}")
 print(f"Current wind speed: {int(weather_current_wind_speed_10m)}m/s")
 print(f"Current temperature: {int(weather_current_temperature_2m)}\u2103")
@@ -142,6 +145,7 @@ print(f"Current swell direction: {curr_swell_direction}")
 print(f"Current swell period: {int(current_swell_wave_period)}s")
 print(f"Current water temperature: {int(current_sea_surface_temperature)}\u2103")
 print('----------------------------------\n')
+'''
 
 # Only applies to swell size as wind will have very little effect. Swell must be over 0.5m.
 if weather_current_wind_speed_10m < 5 and current_swell_wave_height > 0.5:
