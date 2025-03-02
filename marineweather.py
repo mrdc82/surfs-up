@@ -89,7 +89,7 @@ for l in gl.locations:
     loc_name = l.capitalize().replace('_', ' ')
     get_weather()
     get_marine_data()
-    location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
+    location_data.add_entry(loc_name, current_wind_wave_direction, weather_current_wind_speed_10m, current_swell_wave_direction, current_swell_wave_height,
                             current_swell_wave_period, current_sea_surface_temperature)
 
 # Convert list to NumPy array
