@@ -25,15 +25,15 @@ west_desc  = ['Muizenberg (offshore and clean)','Kalk Bay Reef (epic barrels)','
 
 # Lists without descriptions used for ingesting into location search
 
-south_west = ['Black Rocks', 'Dungeons', 'Longbeach']
+south_west = ['Black Rocks', 'Dungeons', 'Longbeach', 'Port Elizabeth']
 north_east = ['Big Bay', 'Derde Steen', 'Horse Trails', 'The Wreck', 'Kamers']
-north_west = ['Muizenberg', 'Kalk Bay Reef', 'Misty Cliffs', 'Barclays']
+north_west = ['Muizenberg', 'Kalk Bay Reef', 'Misty Cliffs', 'Barclays', 'Jeffreys Bay']
 south_east = ['Clifton First Beach', 'Moses', 'Dunes', 'Outer Kom / Inner Kom', 'Ledge', 'Kessels', 'Llandudno', 
              'Milnerton Lighthouse', 'Misty Cliffs', 'Sunset', 'Scarborough', 'Sandy Bay', 'Solly\'s', 'The Hoek', 
              'The Wedge', 'Thermopylae']
 
 south = ['Llandudno','Dungeons','Outer Kom / Inner Kom','Misty Cliffs','Scarborough',
-            'Long Beach']
+            'Long Beach', 'Port Elizabeth']
 north = ['Muizenberg','Kalk Bay Reef','Fish Hoek','Dangers Beach','Strand']
 east  = ['Big Bay','Blouberg','Llandudno',]
-west  = ['Muizenberg','Kalk Bay Reef','Strand','Dangers Beach', 'Black Rocks']
+west  = ['Muizenberg','Kalk Bay Reef','Strand','Dangers Beach', 'Black Rocks', 'Jeffreys Bay']
