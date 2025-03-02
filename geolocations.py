@@ -21,6 +21,8 @@ locations = {
     'llandudno'     : {'lat':-34.0103, 'lon':18.3432},
     'die_kom'       : {'lat':-34.142, 'lon':18.322},
     'dunes'         : {'lat':-34.116, 'lon':18.348},
-    'clifton'       : {'lat':-33.935, 'lon':18.376}
+    'clifton'       : {'lat':-33.935, 'lon':18.376},
+    'jeffreys_bay'  : {'lat':-34.048, 'lon':24.917},
+    'hobie_beach'   : {'lat':-33.978, 'lon':25.660}
     }
 

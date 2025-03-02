@@ -14,13 +14,13 @@ import numpy as np
 dashes = "-"
 
 # user is asked for location
-#ask_location = input("Input location: ")
+ask_location = input("Input location: ")
 #ask_location = "cape town"
-#ask_location = ask_location.lower().replace(' ','_')
+ask_location = ask_location.lower().replace(' ','_')
 
-#latitude = gl.locations[ask_location]['lat']
-#longitude = gl.locations[ask_location]['lon']
-#loc_name = ask_location.upper().replace('_', ' ')
+latitude = gl.locations[ask_location]['lat']
+longitude = gl.locations[ask_location]['lon']
+loc_name = ask_location.capitalize().replace('_', ' ')
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -83,7 +83,7 @@ def get_marine_data():
 
 # Iterate through all locations
 # Add data entries to table in location_data module
-for l in gl.locations:
+'''for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
     loc_name = l.capitalize().replace('_', ' ')
@@ -91,7 +91,7 @@ for l in gl.locations:
     get_marine_data()
     location_data.add_entry(loc_name, weather_current_wind_speed_10m, current_swell_wave_height,
                             current_swell_wave_period, current_sea_surface_temperature)
-
+'''
 #pprint(location_data.table)
 
 get_weather()
