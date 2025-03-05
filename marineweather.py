@@ -15,13 +15,14 @@ import compass
 dashes = "-"
 
 # user is asked for location
-#ask_location = input("Input location: ")
-#ask_location = "cape town"
-#ask_location = ask_location.lower().replace(' ','_')
+'''ask_location = input("Input location: ")
+ask_location = "cape town"
+ask_location = ask_location.lower().replace(' ','_')
 
-#latitude = gl.locations[ask_location]['lat']
-#longitude = gl.locations[ask_location]['lon']
-#loc_name = ask_location.capitalize().replace('_', ' ')
+latitude = gl.locations[ask_location]['lat']
+longitude = gl.locations[ask_location]['lon']
+loc_name = ask_location.capitalize().replace('_', ' ')
+'''
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -63,12 +64,7 @@ def get_marine_data():
                 "swell_wave_height", "swell_wave_direction", "swell_wave_period", "sea_surface_temperature"]
     }
     responses = openmeteo.weather_api(url, params=params)
-
-    # Process first location. Add a for-loop for multiple locations or weather models
     response = responses[0]
-    #print('\n----------------------------------')
-    #print(f"Coordinates: {response.Latitude():.2f},{response.Longitude():.2f}")
-    #print(f"Location: {loc_name}")
 
     # Current values. The order of variables needs to be the same as requested.
     current = response.Current()
@@ -82,8 +78,8 @@ def get_marine_data():
     current_sea_surface_temperature = int(current.Variables(7).Value())
     stringtime = datetime.datetime.fromtimestamp(current.Time()).strftime('%Y-%m-%d %H:%M:%S')
 
-# Iterate through all locations
-# Add data entries to table in location_data module
+# Iterate through all locations from geolocations.py
+# Adding data entries to table in location_data.py
 for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
@@ -95,7 +91,6 @@ for l in gl.locations:
 
 # Convert list to NumPy array
 np_table = np.array(location_data.table, dtype=object)
-# Print the NumPy table
 #print(np_table)
 
 print("Location                 : Cape Town")
