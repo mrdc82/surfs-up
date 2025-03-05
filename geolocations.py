@@ -4,6 +4,7 @@ locations = {
     'muizenberg'    : {'lat':-34.097, 'lon':18.4797},
     'black_rock'    : {'lat':-34.309203125582506, 'lon':18.465065256630176},
     'long_beach'    : {'lat':-34.132450478518756, 'lon':18.3345108351552},
+    'kommetjie'     : {'lat':-34.14078689061186, 'lon':18.313088542335414},
     'dungeons'      : {'lat':-34.062, 'lon':18.324},
     'big_bay'       : {'lat':-33.793, 'lon':18.456},
     'derde_steen'   : {'lat':-33.767, 'lon':18.443},
@@ -22,7 +23,7 @@ locations = {
     'die_kom'       : {'lat':-34.142, 'lon':18.322},
     'dunes'         : {'lat':-34.116, 'lon':18.348},
     'clifton'       : {'lat':-33.935, 'lon':18.376},
-    'jeffreys_bay'  : {'lat':-34.048, 'lon':24.917},
-    'hobie_beach'   : {'lat':-33.978, 'lon':25.660}
+#    'jeffreys_bay'  : {'lat':-34.048, 'lon':24.917},
+#    'hobie_beach'   : {'lat':-33.978, 'lon':25.660}
     }
 
