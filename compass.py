@@ -57,6 +57,3 @@ elif current_swell_wave_direction in range(247,292):
     curr_swell_direction = "W"
 elif current_swell_wave_direction in range(292, 337):
     curr_swell_direction = "NW"
-
-print(curr_wind_direction)
-print(curr_swell_direction)
