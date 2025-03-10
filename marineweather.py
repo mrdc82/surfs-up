@@ -92,7 +92,7 @@ for l in gl.locations:
     location_data.add_entry(loc_name, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
                             current_swell_wave_period, current_sea_surface_temperature)
 
-# Convert list to NumPy array
+# Convert list to NumPy array then panda dataframe
 np_table = np.array(location_data.table, dtype=object)
 df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Wind Direction",
@@ -101,7 +101,7 @@ df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Swell Height",
                                                 "Swell Period",
                                                 "Water Temperature"])
-print(df)
+#print(df)
 
 print("Location                 : Cape Town")
 print(f"Current time             : {stringtime}")
@@ -126,35 +126,35 @@ def swell_no_wind():
         if compass.curr_swell_direction == "SE": 
             for spot in condition_locations.north_west:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "SW":
             for spot in condition_locations.north_east:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "NE":
             for spot in condition_locations.south_west:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "NW":
             for spot in condition_locations.south_east:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "S":
             for spot in condition_locations.north:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "N":
             for spot in condition_locations.south:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "E":
             for spot in condition_locations.west:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_swell_direction == "W":
             for spot in condition_locations.east:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         else:
             pass
 
@@ -163,35 +163,41 @@ def wind_and_swell():
         if compass.curr_wind_direction == "SE" and (compass.curr_swell_direction == "NW" or compass.curr_swell_direction == "W" or compass.curr_swell_direction == "N"):
             for spot in condition_locations.south_east:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_wind_direction == "SW" and (compass.curr_swell_direction == "NE" or compass.curr_swell_direction == "E" or compass.curr_swell_direction == "N"):
             for spot in condition_locations.south_west:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_wind_direction == "NE" and (compass.curr_swell_direction == "SW" or compass.curr_swell_direction == "W" or compass.curr_swell_direction == "S"):
             for spot in condition_locations.north_east:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_wind_direction == "NW" and (compass.curr_swell_direction == "SE" or compass.curr_swell_direction == "S" or compass.curr_swell_direction == "E"):
             for spot in condition_locations.north_west:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_wind_direction == "S" and (compass.curr_swell_direction == "NE" or compass.curr_swell_direction == "NW" or compass.curr_swell_direction == "N"):
-            for spot in condition_locations.south_desc:
+            for spot in condition_locations.south:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
+        #temporary remember to remove
+        elif compass.curr_wind_direction == "S":
+            for spot in condition_locations.south:
+                top_spots.append(spot)
+                #print(spot)
+        ####
         elif compass.curr_wind_direction == "N" and (compass.curr_swell_direction == "SE" or compass.curr_swell_direction == "SW" or compass.curr_swell_direction == "S"):
-            for spot in condition_locations.north_desc:
+            for spot in condition_locations.north:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_wind_direction == "E" and (compass.curr_swell_direction == "NW" or compass.curr_swell_direction == "SW" or compass.curr_swell_direction == "W"):
-            for spot in condition_locations.east_desc:
+            for spot in condition_locations.east:
                 top_spots.append(spot)
-                print(spot)
+                #print(spot)
         elif compass.curr_wind_direction == "W" and (compass.curr_swell_direction == "NE" or compass.curr_swell_direction == "SE" or compass.curr_swell_direction == "E"):
-            for spot in condition_locations.west_desc:
+            for spot in condition_locations.west:
                 top_spots.append(spot)
-                print(spot)
+                ##print(spot)
         else:
             pass
 
@@ -206,8 +212,10 @@ if wind_and_swell() or swell_no_wind():
         print(f"\n{dashes*52}\nQuestionable, check cams or reports for more details\n{dashes*52}")
 
 if len(top_spots) > 0:
-    for s in top_spots:
-        print(s)
-        print(df.loc['Location'][s])
+    mask = df['Location'].isin(top_spots)
+    active_spots = df[mask]
+    print(active_spots)
 else:
     print(f"\n{dashes*52}\nQuestionable, check cams or reports for more details\n{dashes*52}")
+
+
