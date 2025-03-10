@@ -54,23 +54,28 @@ pip install -r requirements.txt
 ```
 -----------------------------------
 Location                 : Cape Town
-Current time             : 2025-03-10 11:00:00
+Current time             : 2025-03-10 12:00:00
 Current wind direction   : S
 Current wind speed       : 7m/s
-Current temperature      : 22℃
+Current temperature      : 23℃
 Current swell height     : 5.24m
 Current swell direction  : SW
 Current swell period     : 8s
 Current water temperature: 15℃
 ----------------------------------
 
-        Location Wind Direction  Wind Speed Swell Direction  Swell Height  Swell Period  Water Temperature
-2     Long beach              S           7              SW          4.44             8                 15
-4       Dungeons              S           7              SW          4.80             8                 15
-10  Misty cliffs              S           7              SW          4.92             8                 14
-15   Scarborough              S           7              SW          4.92             8                 14
-18     Llandudno              S           7              SW          5.32             8                 15
-19       Die kom              S           7              SW          5.00             8                 14
++----+--------------+------------------+--------------+-------------------+----------------+----------------+---------------------+
+|    | Location     | Wind Direction   |   Wind Speed | Swell Direction   |   Swell Height |   Swell Period |   Water Temperature |
+|----+--------------+------------------+--------------+-------------------+----------------+----------------+---------------------|
+|  2 | Long beach   | S                |            7 | SW                |           4.44 |              8 |                  15 |
+|  4 | Dungeons     | S                |            7 | SW                |           4.8  |              8 |                  15 |
+| 10 | Misty cliffs | S                |            7 | SW                |           4.92 |              8 |                  14 |
+| 15 | Scarborough  | S                |            7 | SW                |           4.92 |              8 |                  14 |
+| 18 | Llandudno    | S                |            7 | SW                |           5.32 |              8 |                  15 |
+| 19 | Die kom      | S                |            7 | SW                |           5    |              8 |                  14 |
++----+--------------+------------------+--------------+-------------------+----------------+----------------+---------------------+
+These are next level conditions, beginners need not respond!
+----------------------------------------------------------------------------
 ```
 
 ## Contributing
