@@ -52,28 +52,25 @@ pip install -r requirements.txt
 
 ## Example Output
 ```
-----------------------------------
-Coordinates: -34.29,18.46
-Location: BLACK ROCK
-Current time: 2025-02-24 17:00:00
-Current wind direction S
-Current wind speed: 7m/s
-Current temperature: 22℃
-Current swell height: 2.22m
-Current swell direction: SW
-Current swell period: 9s
-Current water temperature: 13℃
+-----------------------------------
+Location                 : Cape Town
+Current time             : 2025-03-10 11:00:00
+Current wind direction   : S
+Current wind speed       : 7m/s
+Current temperature      : 22℃
+Current swell height     : 5.24m
+Current swell direction  : SW
+Current swell period     : 8s
+Current water temperature: 15℃
 ----------------------------------
 
-These are your best spots based on wind conditions only.
-You'll need to check online for more details
----------------------------------------------------------
-Llandudno (beautiful beach, heavy waves)
-Dungeons (Hout Bay) (big wave spot)
-Outer Kom / Inner Kom (great left-hand point break)
-Misty Cliffs (fun for barrels)
-Scarborough (powerful beach break)
-Long Beach (Kommetjie) (best for all skill levels, clean waves)
+        Location Wind Direction  Wind Speed Swell Direction  Swell Height  Swell Period  Water Temperature
+2     Long beach              S           7              SW          4.44             8                 15
+4       Dungeons              S           7              SW          4.80             8                 15
+10  Misty cliffs              S           7              SW          4.92             8                 14
+15   Scarborough              S           7              SW          4.92             8                 14
+18     Llandudno              S           7              SW          5.32             8                 15
+19       Die kom              S           7              SW          5.00             8                 14
 ```
 
 ## Contributing
