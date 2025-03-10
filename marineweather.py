@@ -208,6 +208,6 @@ if wind_and_swell() or swell_no_wind():
 if len(top_spots) > 0:
     for s in top_spots:
         print(s)
+        print(df.loc['Location'][s])
 else:
     print(f"\n{dashes*52}\nQuestionable, check cams or reports for more details\n{dashes*52}")
-        #print(df.loc['Location'][s])
