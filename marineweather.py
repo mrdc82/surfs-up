@@ -102,6 +102,7 @@ df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Swell Period",
                                                 "Water Temperature"])
 
+print(f'{dashes*50}')
 print("Location                 : Cape Town")
 print(f"Current time             : {stringtime}")
 print(f"Current wind direction   : {compass.curr_wind_direction}")
@@ -109,41 +110,42 @@ print(f"Current wind speed       : {int(weather_current_wind_speed_10m)}m/s")
 print(f"Current temperature      : {int(weather_current_temperature_2m)}\u2103")
 print(f"Current swell height     : {current_swell_wave_height:.2f}m")
 print(f"Current swell direction  : {compass.curr_swell_direction}")
-print(f"Current swell period     : {int(current_swell_wave_period)}s")
-print(f"Current water temperature: {int(current_sea_surface_temperature)}\u2103")
-print('----------------------------------\n')
+#print(f"Current swell period     : {int(current_swell_wave_period)}s")
+#print(f"Current water temperature: {int(current_sea_surface_temperature)}\u2103")
+print(f'{dashes*50}\n')
 
 
 # List comprehension for swell heights represented in floats.
 swell_beginners = [float(round(sb, 10)) for sb in np.arange(0.5,1.3,0.01)]
 swell_intermediate = [float(round(sb, 10)) for sb in np.arange(1.2,2.6,0.01)]
 swell_advanced = [float(round(sb, 10)) for sb in np.arange(2.5,6.0,0.01)]
+same_wind_swell = "Conditions likely flat if very strong winds in same direction as swell"
 
 # Only applies to swell size as wind will have very little effect. Swell must be over 0.5m.
 def swell_no_wind():
     if weather_current_wind_speed_10m < 5:
-        if compass.curr_swell_direction == "SE": 
+        if (current_swell_wave_direction in range(110,160,1)):
             for spot in condition_locations.north_west:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "SW":
+        elif (current_swell_wave_direction in range(200,250,1)):
             for spot in condition_locations.north_east:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "NE":
+        elif (current_swell_wave_direction in range(20,70,1)):
             for spot in condition_locations.south_west:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "NW":
+        elif (current_swell_wave_direction in range(290,340,1)):
             for spot in condition_locations.south_east:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "S":
+        elif (current_swell_wave_direction in range(155,205,1)):
             for spot in condition_locations.north:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "N":
+        elif current_swell_wave_direction in range(330,360,1) or current_swell_wave_direction in range(155,205,1):
             for spot in condition_locations.south:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "E":
+        elif current_swell_wave_direction in range(65,115,1):
             for spot in condition_locations.west:
                 top_spots.append(spot)
-        elif compass.curr_swell_direction == "W":
+        elif current_swell_wave_direction in range(250,300,1):
             for spot in condition_locations.east:
                 top_spots.append(spot)
         else:
@@ -151,50 +153,71 @@ def swell_no_wind():
 
 def wind_and_swell():
     if weather_current_wind_speed_10m > 5:
-        if compass.curr_wind_direction == "SE" and (compass.curr_swell_direction == "NW" or compass.curr_swell_direction == "W" or compass.curr_swell_direction == "N"):
+        if (current_wind_wave_direction in range(110,160,1)) and (current_swell_wave_direction in range(270,360,1)): # SE Wind
             for spot in condition_locations.south_east:
                 top_spots.append(spot)
-
-        #temporary test data remember to remove
-        elif compass.curr_wind_direction == "S":
-            for spot in condition_locations.south:
-                top_spots.append(spot)
-        ####
-
-        elif compass.curr_wind_direction == "SW" and (compass.curr_swell_direction == "NE" or compass.curr_swell_direction == "E" or compass.curr_swell_direction == "N"):
+                print(same_wind_swell)
+        elif (current_wind_wave_direction in range(200,250,1)) and (current_swell_wave_direction in range(0,90,1)): # SW Wind
             for spot in condition_locations.south_west:
                 top_spots.append(spot)
-        elif compass.curr_wind_direction == "NE" and (compass.curr_swell_direction == "SW" or compass.curr_swell_direction == "W" or compass.curr_swell_direction == "S"):
+                print(same_wind_swell)
+        elif (current_wind_wave_direction in range(20,70,1)) and (current_swell_wave_direction in range(180,270,1)): # NE Wind
             for spot in condition_locations.north_east:
                 top_spots.append(spot)
-        elif compass.curr_wind_direction == "NW" and (compass.curr_swell_direction == "SE" or compass.curr_swell_direction == "S" or compass.curr_swell_direction == "E"):
+                print(same_wind_swell)
+        elif (current_wind_wave_direction in range(290,340,1)) and (current_swell_wave_direction in range(90,180,1)): # NW Wind
             for spot in condition_locations.north_west:
                 top_spots.append(spot)
-        elif compass.curr_wind_direction == "S" and (compass.curr_swell_direction == "NE" or compass.curr_swell_direction == "NW" or compass.curr_swell_direction == "N"):
+                print(same_wind_swell)
+        elif (current_wind_wave_direction in range(155,205,1)) and ((current_swell_wave_direction in range(330,360,1)) or (current_swell_wave_direction in range(0,30,1))): # South
             for spot in condition_locations.south:
                 top_spots.append(spot)
-        elif compass.curr_wind_direction == "N" and (compass.curr_swell_direction == "SE" or compass.curr_swell_direction == "SW" or compass.curr_swell_direction == "S"):
+                print(same_wind_swell)
+        elif ((current_wind_wave_direction in range(330,360,1) or current_wind_wave_direction in range(0,30,1))) and (current_swell_wave_direction in range(155,205,1)): # North
             for spot in condition_locations.north:
                 top_spots.append(spot)
-        elif compass.curr_wind_direction == "E" and (compass.curr_swell_direction == "NW" or compass.curr_swell_direction == "SW" or compass.curr_swell_direction == "W"):
+                print(same_wind_swell)
+        elif (current_wind_wave_direction in range(65,115,1)) and (current_swell_wave_direction in range(245,295,1)): # East
             for spot in condition_locations.east:
                 top_spots.append(spot)
-        elif compass.curr_wind_direction == "W" and (compass.curr_swell_direction == "NE" or compass.curr_swell_direction == "SE" or compass.curr_swell_direction == "E"):
+                print(same_wind_swell)
+        elif (current_wind_wave_direction in range(250,300,1)) and (current_swell_wave_direction in range(45,135,1)): # West
+            for spot in condition_locations.west:
+                top_spots.append(spot)
+                print(same_wind_swell)
+        else:
+            pass
+
+def same_wind_and_swell():  # where wind is strong and swell is in the same or cross direction as the wind
+    if weather_current_wind_speed_10m > 7:
+        if (current_wind_wave_direction in range(110,160,1)) and (current_swell_wave_direction in range(110,160,1)): # SE Wind
+            for spot in condition_locations.south_east:
+                top_spots.append(spot)
+        elif (current_wind_wave_direction in range(200,250,1)) and (current_swell_wave_direction in range(200,250,1)): # SW Wind
+            for spot in condition_locations.south_west:
+                top_spots.append(spot)
+        elif (current_wind_wave_direction in range(20,70,1)) and (current_swell_wave_direction in range(20,70,1)): # NE Wind
+            for spot in condition_locations.north_east:
+                top_spots.append(spot)
+        elif (current_wind_wave_direction in range(290,340,1)) and (current_swell_wave_direction in range(290,340,1)): # NW Wind
+            for spot in condition_locations.north_west:
+                top_spots.append(spot)
+        elif (current_wind_wave_direction in range(155,205,1)) and (current_swell_wave_direction in range(155,205,1)): # South
+            for spot in condition_locations.south:
+                top_spots.append(spot)
+        elif ((current_wind_wave_direction in range(330,360,1) or current_wind_wave_direction in range(0,30,1))) and \
+              ((current_swell_wave_direction in range(330,360,1)) or current_swell_wave_direction in range(0,30,1)): # North
+            for spot in condition_locations.north:
+                top_spots.append(spot)
+        elif (current_wind_wave_direction in range(65,115,1)) and (current_swell_wave_direction in range(65,115,1)): # East
+            for spot in condition_locations.east:
+                top_spots.append(spot)
+        elif (current_wind_wave_direction in range(250,300,1)) and (current_swell_wave_direction in range(250,300,1)): # West
             for spot in condition_locations.west:
                 top_spots.append(spot)
         else:
-            pass
-'''
-if wind_and_swell() or swell_no_wind():
-    if current_swell_wave_height in swell_beginners and weather_current_wind_speed_10m < 5 and current_swell_wave_period in range(5,10):
-        print(f"Easy long board sessions, great for beginners\n{dashes*45}")
-    elif current_swell_wave_height in swell_intermediate and weather_current_wind_speed_10m in range(0,8) and current_swell_wave_period in range(5,15):
-        print(f"Some good surfing out there, get stuck in\n{dashes*41}")
-    elif current_swell_wave_height in swell_advanced and weather_current_wind_speed_10m in range(0,10) and current_swell_wave_period > 10:
-        print(f"These are next level conditions, beefcake stuff, beginners need not respond!\n{dashes*76}")
-    else:
-        print(f"\n{dashes*52}\nQuestionable, check cams or reports for more details\n{dashes*52}")
-'''
+            pass       
+
 wind_and_swell()
 swell_no_wind()
 
@@ -204,17 +227,15 @@ if len(top_spots) > 0:
     active_spots = df[mask]
     print(tabulate(active_spots, headers = 'keys', tablefmt = 'psql'))
 else:
-    print(f"\n{dashes*52}\nQuestionable, check cams or reports for more details\n{dashes*52}")
+    pass
 
-#Determine surfing conditions based on swell size
+#Determine surfing conditions based on swell size and wind direction
 if current_swell_wave_height in swell_beginners:
-    print(f"Easy long board sessions, great for beginners\n{dashes*45}")
+    print(f"Small swell, great for longboards\n{dashes*33}")
 elif current_swell_wave_height in swell_intermediate:
-    print(f"Some good surfing out there, get stuck in\n{dashes*41}")
+    print(f"Medium swell, all surfers can enjoy\n{dashes*36}")
 elif current_swell_wave_height in swell_advanced:
-    print(f"These are next level conditions, beginners need not respond!\n{dashes*76}")
+    print(f"Large swells, proceed with caution\n{dashes*34}")
 else:
     print(f"\n{dashes*52}\nQuestionable, check cams or reports for more details\n{dashes*52}")
-
-##hello
 
