@@ -23,37 +23,37 @@ current_wind_wave_direction = int(current.Variables(0).Value())
 current_swell_wave_direction = int(current.Variables(1).Value())
 
 # a compass for wind direction
-if current_wind_wave_direction in range(0,22):
+if current_wind_wave_direction in range(0,19) or current_wind_wave_direction in range(351,360):
     curr_wind_direction = "N"
-elif current_wind_wave_direction in range(22,67):
+elif current_wind_wave_direction in range(20,70,1):
     curr_wind_direction = "NE"
-elif current_wind_wave_direction in range(67,112):
+elif current_wind_wave_direction in range(90,134,1):
     curr_wind_direction = "E"
-elif current_wind_wave_direction in range(112,157):
+elif current_wind_wave_direction in range(135,179,1):
     curr_wind_direction = "SE"
-elif current_wind_wave_direction in range(157,202):
+elif current_wind_wave_direction in range(180,224,1):
     curr_wind_direction = "S"
-elif current_wind_wave_direction in range(202,247):
+elif current_wind_wave_direction in range(225,269,1):
     curr_wind_direction = "SW"
-elif current_wind_wave_direction in range(247,292):
+elif current_wind_wave_direction in range(270,314,1):
     curr_wind_direction = "W"
-elif current_wind_wave_direction in range(292, 337):
+elif current_wind_wave_direction in range(315,350,1):
     curr_wind_direction = "NW"
 
 # a compass for swell direction
-if current_swell_wave_direction in range(0,22):
+if current_swell_wave_direction in range(0,19) or current_swell_wave_direction in range(351,360):
     curr_swell_direction = "N"
-elif current_swell_wave_direction in range(22,67):
+elif current_swell_wave_direction in range(20,70,1):
     curr_swell_direction = "NE"
-elif current_swell_wave_direction in range(67,112):
+elif current_swell_wave_direction in range(90,134,1):
     curr_swell_direction = "E"
-elif current_swell_wave_direction in range(112,157):
+elif current_swell_wave_direction in range(135,179,1):
     curr_swell_direction = "SE"
-elif current_swell_wave_direction in range(157,202):
+elif current_swell_wave_direction in range(180,224,1):
     curr_swell_direction = "S"
-elif current_swell_wave_direction in range(202,247):
+elif current_swell_wave_direction in range(225,269,1):
     curr_swell_direction = "SW"
-elif current_swell_wave_direction in range(247,292):
+elif current_swell_wave_direction in range(270,314,1):
     curr_swell_direction = "W"
-elif current_swell_wave_direction in range(292, 337):
+elif current_swell_wave_direction in range(315,350,1):
     curr_swell_direction = "NW"
