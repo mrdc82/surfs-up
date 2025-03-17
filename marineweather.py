@@ -220,6 +220,7 @@ def same_wind_and_swell():  # where wind is strong and swell is in the same or c
 
 wind_and_swell()
 swell_no_wind()
+same_wind_and_swell()
 
 #Output the data of the best found locations in a panda dataframe.
 if len(top_spots) > 0:
