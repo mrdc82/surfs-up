@@ -3,16 +3,21 @@
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
+import geolocations as gl
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
 openmeteo = openmeteo_requests.Client(session = retry_session)
 
+base = input('What is your current location? ')
+#base = 'muizenberg'
+base_coordinates = gl.locations[base]
+
 url = "https://marine-api.open-meteo.com/v1/marine"
 params = {
-    "latitude": -33.9265038911077,
-    "longitude": 18.409120519172106,
+    "latitude": base_coordinates['lat'],
+    "longitude": base_coordinates['lon'],
     "current": ["wind_wave_direction", "swell_wave_direction"]
 }
 responses = openmeteo.weather_api(url, params=params)

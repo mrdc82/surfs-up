@@ -17,20 +17,6 @@ dashes = "-"
 global top_spots
 top_spots = []
 
-# user is asked for location
-#base = input("Where are you based? ")
-base = 'muizenberg'
-base_coordinates = gl.locations[base]
-
-'''ask_location = input("Input location: ")
-ask_location = "cape town"
-ask_location = ask_location.lower().replace(' ','_')
-
-latitude = gl.locations[ask_location]['lat']
-longitude = gl.locations[ask_location]['lon']
-loc_name = ask_location.capitalize().replace('_', ' ')
-'''
-
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
@@ -91,7 +77,7 @@ def get_marine_data():
 for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
-    source = (base_coordinates['lat'], base_coordinates['lon'])
+    source = (compass.base_coordinates['lat'], compass.base_coordinates['lon'])
     destination = (latitude, longitude)
     distance = (geodesic(source, destination).kilometers*1.2)
     distance = f'{distance:.2f}'
@@ -113,7 +99,7 @@ df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Distance(km)"])
 
 print(f'{dashes*50}')
-print("Location                 : Cape Town")
+print(f"Location                 : {compass.base}")
 print(f"Current time             : {stringtime}")
 print(f"Current wind direction   : {compass.curr_wind_direction}")
 print(f"Current wind speed       : {int(weather_current_wind_speed_10m)}m/s")
@@ -132,7 +118,7 @@ same_wind_swell = "Conditions likely flat if very strong winds are relatively in
 
 # Only applies to swell size as wind will have very little effect. Swell must be over 0.5m.
 def swell_no_wind():
-    if weather_current_wind_speed_10m < 5:
+    if weather_current_wind_speed_10m <= 5:
         if (compass.curr_swell_direction == "SE"):
             for spot in condition_locations.north_west:
                 top_spots.append(spot)

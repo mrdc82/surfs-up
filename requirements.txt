@@ -3,3 +3,4 @@ requests_cache
 pandas
 retry_requests
 tabulate
+geopy
