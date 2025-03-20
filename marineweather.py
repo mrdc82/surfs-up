@@ -6,10 +6,11 @@ import datetime
 import geolocations as gl
 import condition_locations
 import location_data
-from pprint import pprint
+#from pprint import pprint
 import numpy as np
 import compass
 from tabulate import tabulate
+from geopy.distance import geodesic
 
 # Some print stuff for cleanliness
 dashes = "-"
@@ -18,6 +19,11 @@ global top_spots
 top_spots = []
 
 # user is asked for location
+
+#base = input("Where are you based? ")
+base = 'muizenberg'
+base_coordinates = gl.locations[base]
+
 '''ask_location = input("Input location: ")
 ask_location = "cape town"
 ask_location = ask_location.lower().replace(' ','_')
@@ -87,10 +93,15 @@ def get_marine_data():
 for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
+    source = (base_coordinates['lat'], base_coordinates['lon'])
+    destination = (latitude, longitude)
+    distance = (geodesic(source, destination).kilometers*1.2)
+    distance = f'{distance:.2f}'
+
     get_weather()
     get_marine_data()
     location_data.add_entry(l, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
-                            current_swell_wave_period, current_sea_surface_temperature)
+                            current_swell_wave_period, current_sea_surface_temperature, distance)
 
 # Convert list to NumPy array then panda dataframe
 np_table = np.array(location_data.table, dtype=object)
@@ -100,7 +111,8 @@ df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Swell Direction",
                                                 "Swell Height(m)",
                                                 "Swell Period(s)",
-                                                "Water Temperature"])
+                                                "Water Temperature",
+                                                "Distance(km)"])
 
 print(f'{dashes*50}')
 print("Location                 : Cape Town")
@@ -194,7 +206,8 @@ same_wind_and_swell()
 if len(top_spots) > 0:
     mask = df['Location'].isin(top_spots)
     active_spots = df[mask]
-    print(tabulate(active_spots, headers = 'keys', tablefmt = 'psql', numalign='center', stralign='center'))
+    sorted_distance = active_spots.sort_values(by=['Distance(km)'])
+    print(tabulate(sorted_distance, headers = 'keys', tablefmt = 'psql', numalign='center', stralign='center'))
 else:
     pass
 
