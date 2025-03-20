@@ -52,30 +52,31 @@ pip install -r requirements.txt
 
 ## Example Output
 ```
------------------------------------
-Location                 : Cape Town
-Current time             : 2025-03-10 12:00:00
-Current wind direction   : S
-Current wind speed       : 7m/s
-Current temperature      : 23℃
-Current swell height     : 5.24m
-Current swell direction  : SW
-Current swell period     : 8s
-Current water temperature: 15℃
-----------------------------------
+--------------------------------------------------
+Location                 : muizenberg
+Current time             : 2025-03-20 12:00:00
+Current wind direction   : SE
+Current wind speed       : 5m/s
+Current temperature      : 25℃
+Current swell height     : 1.42m
+Current swell direction  : S
+--------------------------------------------------
 
-+----+--------------+------------------+--------------+-------------------+----------------+----------------+---------------------+
-|    | Location     | Wind Direction   |   Wind Speed | Swell Direction   |   Swell Height |   Swell Period |   Water Temperature |
-|----+--------------+------------------+--------------+-------------------+----------------+----------------+---------------------|
-|  2 | Long beach   | S                |            7 | SW                |           4.44 |              8 |                  15 |
-|  4 | Dungeons     | S                |            7 | SW                |           4.8  |              8 |                  15 |
-| 10 | Misty cliffs | S                |            7 | SW                |           4.92 |              8 |                  14 |
-| 15 | Scarborough  | S                |            7 | SW                |           4.92 |              8 |                  14 |
-| 18 | Llandudno    | S                |            7 | SW                |           5.32 |              8 |                  15 |
-| 19 | Die kom      | S                |            7 | SW                |           5    |              8 |                  14 |
-+----+--------------+------------------+--------------+-------------------+----------------+----------------+---------------------+
-These are next level conditions, beginners need not respond!
-----------------------------------------------------------------------------
++----+----------------+------------------+-------------------+-------------------+-------------------+-------------------+---------------------+----------------+
+|    |    Location    |  Wind Direction  |  Wind Speed(m/s)  |  Swell Direction  |  Swell Height(m)  |  Swell Period(s)  |  Water Temperature  |  Distance(km)  |
+|----+----------------+------------------+-------------------+-------------------+-------------------+-------------------+---------------------+----------------|
+| 22 |   muizenberg   |        SE        |         5         |         S         |       0.94        |         9         |         13          |       0        |
+| 27 |  danger beach  |        SE        |         5         |         S         |       0.94        |         9         |         13          |      2.25      |
+| 20 |    macassar    |        SE        |         6         |         S         |       0.78        |         9         |         16          |     30.14      |
+| 8  |   dias beach   |        SE        |         1         |         S         |       1.44        |         8         |         13          |     32.89      |
+| 23 |  pearly beach  |        SE        |         2         |         S         |       1.44        |         8         |         16          |     134.33     |
+| 13 | jongensfontein |        SE        |         3         |         S         |       1.34        |         8         |         16          |     321.31     |
+| 18 |  skulpiesbaai  |        SE        |         3         |         S         |       1.26        |         8         |         17          |     328.6      |
+| 10 | glentana beach |        SE        |         2         |         S         |       1.08        |         8         |         18          |     424.43     |
+| 16 | keurboomstrand |        SE        |         3         |         S         |       1.14        |         9         |         17          |     548.76     |
++----+----------------+------------------+-------------------+-------------------+-------------------+-------------------+---------------------+----------------+
+Medium swell
+------------------------------------
 ```
 
 ## Contributing
