@@ -10,8 +10,8 @@ cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
 openmeteo = openmeteo_requests.Client(session = retry_session)
 
-base = input('What is your current location? ')
-#base = 'muizenberg'
+#base = input('What is your current location? ')
+base = 'muizenberg'
 base_coordinates = gl.locations[base]
 
 url = "https://marine-api.open-meteo.com/v1/marine"

@@ -80,7 +80,7 @@ for l in gl.locations:
     source = (compass.base_coordinates['lat'], compass.base_coordinates['lon'])
     destination = (latitude, longitude)
     distance = (geodesic(source, destination).kilometers*1.2)
-    distance = f'{distance:.2f}'
+    distance = float(f'{distance:.2f}')
 
     get_weather()
     get_marine_data()
