@@ -6,7 +6,6 @@ import datetime
 import geolocations as gl
 import condition_locations
 import location_data
-#from pprint import pprint
 import numpy as np
 import compass
 from tabulate import tabulate
@@ -19,7 +18,6 @@ global top_spots
 top_spots = []
 
 # user is asked for location
-
 #base = input("Where are you based? ")
 base = 'muizenberg'
 base_coordinates = gl.locations[base]
