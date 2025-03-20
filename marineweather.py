@@ -6,26 +6,16 @@ import datetime
 import geolocations as gl
 import condition_locations
 import location_data
-from pprint import pprint
 import numpy as np
 import compass
 from tabulate import tabulate
+from geopy.distance import geodesic
 
 # Some print stuff for cleanliness
 dashes = "-"
 
 global top_spots
 top_spots = []
-
-# user is asked for location
-'''ask_location = input("Input location: ")
-ask_location = "cape town"
-ask_location = ask_location.lower().replace(' ','_')
-
-latitude = gl.locations[ask_location]['lat']
-longitude = gl.locations[ask_location]['lon']
-loc_name = ask_location.capitalize().replace('_', ' ')
-'''
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -87,24 +77,29 @@ def get_marine_data():
 for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
-    loc_name = l.capitalize().replace('_', ' ')
+    source = (compass.base_coordinates['lat'], compass.base_coordinates['lon'])
+    destination = (latitude, longitude)
+    distance = (geodesic(source, destination).kilometers*1.2)
+    distance = float(f'{distance:.2f}')
+
     get_weather()
     get_marine_data()
-    location_data.add_entry(loc_name, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
-                            current_swell_wave_period, current_sea_surface_temperature)
+    location_data.add_entry(l, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
+                            current_swell_wave_period, current_sea_surface_temperature, distance)
 
 # Convert list to NumPy array then panda dataframe
 np_table = np.array(location_data.table, dtype=object)
 df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Wind Direction",
-                                                "Wind Speed",
+                                                "Wind Speed(m/s)",
                                                 "Swell Direction",
-                                                "Swell Height",
-                                                "Swell Period",
-                                                "Water Temperature"])
+                                                "Swell Height(m)",
+                                                "Swell Period(s)",
+                                                "Water Temperature",
+                                                "Distance(km)"])
 
 print(f'{dashes*50}')
-print("Location                 : Cape Town")
+print(f"Location                 : {compass.base}")
 print(f"Current time             : {stringtime}")
 print(f"Current wind direction   : {compass.curr_wind_direction}")
 print(f"Current wind speed       : {int(weather_current_wind_speed_10m)}m/s")
@@ -123,7 +118,7 @@ same_wind_swell = "Conditions likely flat if very strong winds are relatively in
 
 # Only applies to swell size as wind will have very little effect. Swell must be over 0.5m.
 def swell_no_wind():
-    if weather_current_wind_speed_10m < 5:
+    if weather_current_wind_speed_10m <= 5:
         if (compass.curr_swell_direction == "SE"):
             for spot in condition_locations.north_west:
                 top_spots.append(spot)
@@ -195,7 +190,8 @@ same_wind_and_swell()
 if len(top_spots) > 0:
     mask = df['Location'].isin(top_spots)
     active_spots = df[mask]
-    print(tabulate(active_spots, headers = 'keys', tablefmt = 'psql'))
+    sorted_distance = active_spots.sort_values(by=['Distance(km)'])
+    print(tabulate(sorted_distance, headers = 'keys', tablefmt = 'psql', numalign='center', stralign='center'))
 else:
     pass
 
