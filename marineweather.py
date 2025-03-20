@@ -87,10 +87,10 @@ def get_marine_data():
 for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
-    #loc_name = l.capitalize().replace('_', ' ')
+    loc_name = l.capitalize().replace('_', ' ')
     get_weather()
     get_marine_data()
-    location_data.add_entry(loc_name, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
+    location_data.add_entry(l, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
                             current_swell_wave_period, current_sea_surface_temperature)
 
 # Convert list to NumPy array then panda dataframe
