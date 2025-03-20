@@ -87,7 +87,6 @@ def get_marine_data():
 for l in gl.locations:
     latitude = gl.locations[l]['lat']
     longitude = gl.locations[l]['lon']
-    loc_name = l.capitalize().replace('_', ' ')
     get_weather()
     get_marine_data()
     location_data.add_entry(l, compass.curr_wind_direction, weather_current_wind_speed_10m, compass.curr_swell_direction, current_swell_wave_height,
@@ -97,10 +96,10 @@ for l in gl.locations:
 np_table = np.array(location_data.table, dtype=object)
 df = pd.DataFrame(location_data.table, columns=["Location",
                                                 "Wind Direction",
-                                                "Wind Speed",
+                                                "Wind Speed(m/s)",
                                                 "Swell Direction",
-                                                "Swell Height",
-                                                "Swell Period",
+                                                "Swell Height(m)",
+                                                "Swell Period(s)",
                                                 "Water Temperature"])
 
 print(f'{dashes*50}')
@@ -195,7 +194,7 @@ same_wind_and_swell()
 if len(top_spots) > 0:
     mask = df['Location'].isin(top_spots)
     active_spots = df[mask]
-    print(tabulate(active_spots, headers = 'keys', tablefmt = 'psql'))
+    print(tabulate(active_spots, headers = 'keys', tablefmt = 'psql', numalign='center', stralign='center'))
 else:
     pass
 

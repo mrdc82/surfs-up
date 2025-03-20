@@ -11,9 +11,9 @@ def add_entry(loc_name, curr_wind_direction, weather_current_wind_speed_10m, cur
     table.append({
         "Location": loc_name, 
         "Wind Direction": curr_wind_direction, 
-        "Wind Speed": weather_current_wind_speed_10m, 
+        "Wind Speed(m/s)": weather_current_wind_speed_10m, 
         "Swell Direction": curr_swell_direction, 
-        "Swell Height": current_swell_wave_height, 
-        "Swell Period": current_swell_wave_period,
+        "Swell Height(m)": current_swell_wave_height, 
+        "Swell Period(s)": current_swell_wave_period,
         "Water Temperature": current_sea_surface_temperature
         })
