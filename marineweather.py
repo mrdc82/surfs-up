@@ -148,6 +148,35 @@ def swell_no_wind():
 
 def wind_and_swell():
     if weather_current_wind_speed_10m > 5:
+        if (compass.curr_wind_direction == "SE"): # SE Wind
+            for spot in condition_locations.south_east:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "SW"): # SW Wind
+            for spot in condition_locations.south_west:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "NE"): # NE Wind
+            for spot in condition_locations.north_east:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "NW"): # NW Wind
+            for spot in condition_locations.north_west:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "S"): # South
+            for spot in condition_locations.south:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "N"): # North
+            for spot in condition_locations.north:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "E"): # East
+            for spot in condition_locations.east:
+                top_spots.append(spot)
+        elif (compass.curr_wind_direction == "W"): # West
+            for spot in condition_locations.west:
+                top_spots.append(spot)
+        else:
+            pass
+
+def optimal_conditions():
+    if weather_current_wind_speed_10m > 5:
         if (compass.curr_wind_direction == "SE") and (compass.curr_swell_direction == "NW"): # SE Wind
             for spot in condition_locations.south_east:
                 top_spots.append(spot)
